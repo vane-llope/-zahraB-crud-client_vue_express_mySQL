@@ -10,3 +10,9 @@ body{
     height: 120px;
     
 }
+.addPhoto{
+    height: 128px;
+    background-image: url('../src/assets/5.png') ;
+    background-repeat: no-repeat;
+}
+

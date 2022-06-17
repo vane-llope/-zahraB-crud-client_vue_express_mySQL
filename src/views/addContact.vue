@@ -6,13 +6,18 @@
       <div class="row mb-3">
         <div class="col-md-8">
           <div class="row">
-            <div class="col-md-6">
+
+
+              <div v-if="test" class="col-md-6 addPhoto"></div>
+            <div v-else class="col-md-6 " >
               <img
                 :src="contact.image"
                 alt=""
                 class="contact-img rounded-circle"
               />
             </div>
+
+
             <div class="col-md-6">
               <label for="validationCustom01" class="form-label h3">
                 Shop Name</label
@@ -147,7 +152,7 @@ export default {
     return {
       contact: {
         shopname: "",
-        image: "https://www.clipartmax.com/png/small/257-2572603_user-man-social-avatar-profile-icon-man-avatar-in-circle.png",
+        image: "",
         name: "",
         phone: "",
         email: "",
@@ -160,15 +165,21 @@ export default {
   },
   methods: {
     register() {
-  axios.post('http://localhost:3000/contacts/create',  {  contact : this.contact} )
+    axios.post('http://localhost:3000/contacts/create',  {  contact : this.contact} )
     .then((res) => console.log(res))
     .then( () => {return this.$router.push('/')} )
     .catch((err) => console.error(err));
   },
   },
-  /*computed : {
-  img: () =>  { if(this.contact.image !== null) return this.contact.image}
-  },*/
+   computed: {
+    // a computed getter
+    test() {
+      if(this.contact.image.length == 0)
+      return true
+      else
+      return false
+    }
+  }
   
 };
 </script>
