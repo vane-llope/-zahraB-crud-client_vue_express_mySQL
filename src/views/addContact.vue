@@ -165,6 +165,8 @@ export default {
   },
   methods: {
     register() {
+      if(this.contact.image.length == 0 ) 
+      this.contact.image = "https://cdn-icons-png.flaticon.com/512/147/147140.png"
     axios.post('http://localhost:3000/contacts/create',  {  contact : this.contact} )
     .then((res) => console.log(res))
     .then( () => {return this.$router.push('/')} )

@@ -19,6 +19,18 @@
               />
             </div>
           </li>
+           <li class="list-group-item list-group-item-action d-flex">
+            <div class="col-1"><label class="fw-bold">image : </label></div>
+            <div class="col-11">
+              <input
+                type="email"
+                class="form-control"
+                id="validationCustom01"
+                required
+                v-model="user.image"
+              />
+            </div>
+          </li>
           <li class="list-group-item list-group-item-action d-flex">
             <div class="col-1"><label class="fw-bold">Name : </label></div>
             <div class="col-11">
@@ -115,6 +127,9 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+           <router-link to="/" class="btn btn-primary mt-3"><i class="fa fa-arrow-alt-circle-left"></i> Back</router-link>  
+        </div>
       <div class="col-12 mt-3">
         <button class="btn btn-success text-light" @click="updateUser(user.id)">
           <i class="fa fa-paint-brush" aria-hidden="true"></i> 
