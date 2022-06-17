@@ -5,16 +5,36 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    redirect : '/contacts',
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path : '/contacts',
+    name : 'contactManager',
+    component : () => import ('../views/contactManager.vue')
+  },
+  {
+    path : '/contacts/add',
+    name : 'addContact',
+    component : () => import ('../views/addContact.vue')
+  },
+  {
+    path : '/contacts/edit/:id',
+    name : 'editContact',
+    component : () => import ('../views/editContact.vue')
+  },
+  {
+    path : '/contacts/view/:id',
+    name : 'viewContact',
+    component : () => import ('../views/viewContact.vue')
+  },
+  {
+    path : '/:pathMatch(.*)*',
+    name : 'notFound',
+    component : () => import ('../views/notFound.vue')
   }
+
+
 ]
 
 const router = createRouter({
