@@ -14,15 +14,24 @@
         placeholder="Search by ID"
         aria-label="Search"
       />
-      <router-link
-        :to="`/contacts/view/${id}`"
-        class="btn btn-success  my-2"
-      >
-      Search
+      <router-link :to="`/contacts/view/${id}`" class="btn btn-success my-2">
+        Search
       </router-link>
     </form>
-    <div class="row">
-      <div class="col-md-6 my-3" v-for="contact in contacts" :key="contact.id">
+    <transition-group
+      tag="div"
+      class="row"
+      name="list"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      appear
+    >
+      <div
+        class="col-md-6 my-3"
+        v-for="(contact, index) in contacts"
+        :key="contact.id"
+        :data-index="index"
+      >
         <div class="card list-group-item-success shadow">
           <div class="card-body">
             <div class="row">
@@ -66,7 +75,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </transition-group>
     <!-- <button @click="getUser(1)" class="btn">test button</button>
     <p>{{contact}}</p>
     <p>{{ contacts }}</p>-->
@@ -74,11 +83,27 @@
 </template>
 
 <script>
+import gsap from "gsap";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { ref } from "@vue/reactivity";
+import axios from 'axios'
 export default {
   setup() {
+    const beforeEnter = (el) => {
+      el.style.opacity = 0;
+      el.style.transform = "translateY(100px)";
+    };
+    const enter = (el, done) => {
+      gsap.to(el, {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        onComplete: done,
+        delay: el.dataset.index * 0.2,
+      });
+    };
+
     const id = ref("");
     const store = useStore();
     //GET ALL USERS
@@ -87,68 +112,28 @@ export default {
       store.commit("getAllUsers");
     });
     //DELETE USER
-    const del = (id) => {store.commit("del",id)
-    getAllUsers()}
+    const del = (id) => {
+      axios({
+        method: "get",
+        url: "http://localhost:3000/contacts/delete/" + id,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => console.log(err));
+      getAllUsers();
+    };
 
     return {
       contacts,
       id,
       getAllUsers,
-      del
+      del,
+      enter,
+      beforeEnter,
     };
   },
 };
-/*
-import axios from 'axios'
-export default {
-    name: 'contactManager',
-    data() {
-        return {
-           // loading: false,
-           id : '',
-            contacts: [],
-          //  errorMessage: null
-        }
-    },
-    mounted() {
-      this.getAllContacts()
-    },
-    methods: {
-        getAllContacts() {
-            axios({
-                    method: "get",
-                    url: "http://localhost:3000/contacts",
-                })
-                .then((response) => {
-                    this.contacts = response.data;
-                })
-                .catch((err) => console.log(err));
-        },
-        del(id){
-           axios({
-                    method: "get",
-                    url: "http://localhost:3000/contacts/delete/"+id,
-                })
-                .then((response) => {
-                    console.log(response);
-                    this.getAllContacts()
-                })
-                .catch((err) => console.log(err));
-        },
-        search(){
-             axios({
-                    method: "get",
-                    url: "http://localhost:3000/contacts/user/"+this.id,
-                })
-                .then((response) => {
-                    this.contacts = response
-                    console.log(response.data)
-                })
-                .catch((err) => console.log(err));
-        }
-    },
-}*/
 </script>
 
-<style>
-</style>
+

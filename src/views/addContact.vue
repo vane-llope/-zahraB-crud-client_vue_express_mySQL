@@ -23,7 +23,7 @@
                 Shop Name</label
               >
               <input
-                type="email"
+                type="text"
                 v-model="contact.shopname"
                 class="form-control"
                 id="validationCustom01"
@@ -74,7 +74,7 @@
         <div class="col-md-6">
           <label for="validationCustom01" class="form-label">ID Number</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
             v-model="contact.idnumber"
             id="validationCustom01"
@@ -85,7 +85,7 @@
         <div class="col-md-6">
           <label for="validationCustom01" class="form-label">Phone</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
             v-model="contact.phone"
             id="validationCustom01"
@@ -137,7 +137,7 @@
       </div>
 
       <div>
-        <button class="btn btn-success col-12 mb-5" type="submit">
+        <button class="btn btn-success col-12 mb-5" type="submit" >
           Register
         </button>
       </div>
@@ -167,10 +167,23 @@ export default {
     register() {
       if(this.contact.image.length == 0 ) 
       this.contact.image = "https://cdn-icons-png.flaticon.com/512/147/147140.png"
+
+       if (
+        this.contact.name == "" ||
+        this.contact.phone == "" ||
+        this.contact.email == "" ||
+        this.contact.idnumber == "" ||
+        this.contact.state == "" ||
+        this.contact.city == "" ||
+        this.contact.address == ""
+      )
+       this.$emit("badValue" , "please fill all boxes", "danger");
+      else{
     axios.post('http://localhost:3000/contacts/create',  {  contact : this.contact} )
     .then((res) => console.log(res))
     .then( () => {return this.$router.push('/')} )
     .catch((err) => console.error(err));
+    this.$emit("badValue" , "User added" , "info")}
   },
   },
    computed: {
@@ -182,6 +195,5 @@ export default {
       return false
     }
   }
-  
 };
 </script>

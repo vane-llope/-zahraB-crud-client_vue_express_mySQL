@@ -35,18 +35,7 @@ export default createStore({
         })
         .catch((err) => console.log(err));
     },
-    //DELETE USER
-    del(state,id) {
-     state.id=id
-      axios({
-        method: "get",
-        url: "http://localhost:3000/contacts/delete/" + state.id,
-      })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => console.log(err));
-    },
+    
     //ADD USER
   
        

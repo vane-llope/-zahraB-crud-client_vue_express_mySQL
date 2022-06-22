@@ -1,6 +1,6 @@
 <template>
   <div class="container my-3" v-for="user in contact" :key="user.id">
-    <p class="h3 text-success fw-bold">View Contant</p>
+    <p class="h3 text-success fw-bold">Edit Contant</p>
     <div class="row">
       <div class="col-md-2" >
         <img :src="user.image" alt="" class="contact-img rounded-circle mb-3" />
@@ -126,7 +126,7 @@
         </ul>
       </div>
     </div>
-    <div class="row">
+   <div class="row">
       <div class="col-12">
            <router-link to="/" class="btn btn-primary mt-3"><i class="fa fa-arrow-alt-circle-left"></i> Back</router-link>  
         </div>
@@ -150,7 +150,7 @@ import { useRoute } from "vue-router";
 import { onMounted, computed } from "@vue/runtime-core";
 import axios from "axios";
 export default {
-  setup() {
+  setup(props, { emit }) {
     const store = useStore();
     const img =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxcDTPj7lHLFvEqKD4OKEz8a3Iu5EKO90yWzQaaTB0h_Oqn5m2Y-QmoS7XJW5PyQNuM3k&usqp=CAU";
@@ -159,6 +159,7 @@ export default {
     const id = route.params.id;
     const updateUser = (id) => {
       axios.put("http://localhost:3000/contacts/edit/" + id, contact.value)
+      .then( () => {return (emit("badValue",'user apdated'))})
       
     };
     const contact = computed(() => store.state.contact);
