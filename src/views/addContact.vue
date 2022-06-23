@@ -166,7 +166,7 @@ export default {
   methods: {
     register() {
       if(this.contact.image.length == 0 ) 
-      this.contact.image = "https://cdn-icons-png.flaticon.com/512/147/147140.png"
+      this.contact.image = "https://cdn-icons-png.flaticon.com/128/4128/4128176.png"
 
        if (
         this.contact.name == "" ||
